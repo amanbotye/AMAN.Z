@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">أمان | AMAN</string>
+    <string name="app_tagline">حماية وضمان</string>
+    <string name="login">تسجيل الدخول</string>
+    <string name="register">إنشاء حساب</string>
+    <string name="full_name">الاسم الكامل</string>
+    <string name="email">البريد الإلكتروني</string>
+    <string name="phone">رقم الهاتف</string>
+    <string name="password">كلمة المرور</string>
+    <string name="confirm_password">تأكيد كلمة المرور</string>
+    <string name="forgot_password">نسيت كلمة المرور؟</string>
+    <string name="reset_password">استعادة كلمة المرور</string>
+    <string name="home">الرئيسية</string>
+    <string name="numbers">أرقامي</string>
+    <string name="notifications">الإشعارات</string>
+    <string name="settings">الإعدادات</string>
+    <string name="protected">مفعلة للحماية</string>
+    <string name="not_protected">غير مفعلة للحماية</string>
+    <string name="add_number">إضافة رقم جديد</string>
+    <string name="request_protection">طلب تفعيل الحماية</string>
+    <string name="renew_protection">طلب التجديد</string>
+    <string name="days_remaining">يوم متبقي</string>
+    <string name="payment_reference">مرجع التحويل</string>
+    <string name="logout">تسجيل الخروج</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primary">#003366</color>
+    <color name="primary_dark">#002244</color>
+    <color name="secondary">#008080</color>
+    <color name="accent_gold">#D4AF37</color>
+    <color name="background_light">#F8FAFC</color>
+    <color name="surface_card">#FFFFFF</color>
+    <color name="success_green">#10B981</color>
+    <color name="warning_amber">#F59E0B</color>
+    <color name="danger_red">#EF4444</color>
+    <color name="text_primary">#0F172A</color>
+    <color name="text_secondary">#64748B</color>
+</resources>
