@@ -2232,6 +2232,9 @@ Customer ├── Numbers ├── Protection Requests ├── Protections �
 
 04.1 [كيان] telecom_providers
 
+قاعدة التسمية المعتمدة:
+اسم الكيان في واجهة المنتج هو «شركة الاتصالات» (أو «الشركات» في التبويب)، بينما الاسم المعتمد للجدول في قاعدة البيانات هو حصراً telecom_providers وبادئاته provider_prefixes. لا يوجد جدول ثانٍ باسم companies.
+
 الحقول
 
 الحقلالنوعidUUIDnameTextcodeTextnumber_lengthIntegeris_activeBooleansort_orderIntegercreated_atTimestampupdated_atTimestamp 
@@ -2726,6 +2729,9 @@ original_due_at rescheduled_at rescheduled_by reschedule_reason due_at الجد�
 
 20.1 [كيان] Subscription Settings
 
+قرار بنية البيانات المعتمد:
+تُدار إعدادات الاشتراك ككيان إعداد مركزي موحد داخل جدول system_settings تحت المفتاح المعتمد 'subscription_settings' بصيغة JSONB، ويتم قراءتها وتعديلها عبر الدالة الموثوقة admin_set_system_setting دون إنشاء جدول منفصل ومكرر.
+
 تتضمن منطقياً القيم المعتمدة في مواصفات النظام مثل:
 
 • مدة الاشتراك.
@@ -2810,7 +2816,7 @@ Admin Notifications
 
 أمثلة
 
-approve_protection_request reject_protection_request complete_payment_task reschedule_payment_task update_package update_payment_method update_task_settings update_system_setting 
+rpc_approve_protection_request rpc_reject_protection_request rpc_execute_task rpc_reschedule_task admin_upsert_package admin_upsert_payment_method admin_upsert_task_settings admin_set_system_setting 
 
 القاعدة
 
@@ -4218,11 +4224,34 @@ ProtectionRequestsUiState TasksUiState CustomersUiState NumbersUiState CompanyUi
 
 LoadDashboard LoadCustomers LoadCustomerDetails LoadNumbers LoadNumberDetails LoadProtectionRequests ApproveProtectionRequest RejectProtectionRequest LoadProtections LoadTasks ExecuteTask RescheduleTask LoadCompanies CreateCompany UpdateCompany UpdateCompanySettings LoadPackages CreatePackage UpdatePackage EnablePackage DisablePackage LoadPaymentMethods CreatePaymentMethod UpdatePaymentMethod EnablePaymentMethod DisablePaymentMethod ApproveRenewal RejectRenewal UpdateTaskInterval UpdateTaskAmount UpdateSystemSettings ReadAuditLog Logout 
 
-79. RPC Registry التشغيلي
+79. RPC Registry التشغيلي الموحد والمفصول
 
-الدوال المرتبطة بالعمليات الأساسية حسب المرجع:
+[قائمة دوال العميل — CLIENT RPC]:
+• rpc_add_customer_number (إضافة رقم للعميل)
+• rpc_create_protection_request (إنشاء طلب حماية جديد)
+• rpc_create_renewal_request (إنشاء طلب تجديد حماية)
+• rpc_mark_notification_read (تحديد إشعار كمقروء)
+• rpc_mark_all_notifications_read (تحديد كل الإشعارات كمقروءة)
 
-rpc_add_customer_number rpc_create_protection_request rpc_create_renewal_request rpc_approve_protection_request rpc_approve_renewal rpc_execute_task rpc_update_task_interval 
+[قائمة دوال الإدارة — ADMIN RPC]:
+• rpc_approve_protection_request (قبول طلب حماية وحل التعارض ذرياً)
+• rpc_reject_protection_request (رفض طلب حماية مع سبب إلزامي)
+• rpc_approve_renewal (قبول طلب تجديد وتمديد الحماية بناء على الانتهاء السابق)
+• rpc_reject_renewal (رفض طلب التجديد مع سبب إلزامي)
+• rpc_execute_task (إكمال المهمة التشغيلية وجدولة المهمة التالية)
+• rpc_reschedule_task (إعادة جدولة المهمة مع حفظ التاريخ الأصلي والسبب)
+• rpc_update_task_interval (تحديث فاصل المهام للشركة وإعادة حساب الخطط المستقبلية)
+• rpc_verify_manual_payment (التحقق اليدوي من إثبات الدفع والتدقيق)
+• get_admin_dashboard_summary (ملخص إحصائيات لوحة تحكم الإدارة الحقيقية)
+• admin_upsert_provider (إضافة/تعديل شركة اتصالات)
+• admin_upsert_provider_prefix (إضافة/تعديل بادئة شركة)
+• admin_upsert_package (إضافة/تعديل باقة)
+• admin_upsert_payment_method (إضافة/تعديل وسيلة دفع)
+• admin_upsert_task_settings (إعدادات المهام للشركة)
+• admin_upsert_task_classification (تصنيفات توقيت المهام)
+• admin_set_system_setting (ضبط إعداد نظام مركزي / إعدادات الاشتراك)
+• admin_set_user_status (تعديل حالة حساب مستخدم)
+• admin_set_user_role (تعيين دور مستخدم) 
 
 وتوجد عمليات رفض وإعدادات أخرى حسب طبقة قاعدة البيانات والتنفيذ النهائي.
 
@@ -5112,7 +5141,7 @@ Active Near Expiry Expired
 
 المراجعة السابقة أثبتت أن:
 
-protection_renewals rpc_create_renewal_request rpc_approve_renewal rpc_reject_renewal 
+protection_requests (renewal) / protections / protection_history rpc_create_renewal_request rpc_approve_renewal rpc_reject_renewal 
 
 موجودة في قاعدة البيانات، لكن ربط Android بها كان ناقصاً.
 
@@ -5414,7 +5443,7 @@ Composable ↓ ViewModel ↓ Use Case ↓ Repository
 
 منها:
 
-approve_protection_request reject_protection_request approve_renewal_request task_time_classification complete_payment_task reschedule_payment_task get_admin_dashboard_summary admin_upsert_provider admin_upsert_provider_prefix admin_upsert_package admin_upsert_payment_method admin_upsert_task_settings admin_upsert_task_classification admin_set_system_setting admin_set_user_role admin_set_user_status 
+rpc_approve_protection_request rpc_reject_protection_request rpc_approve_renewal rpc_reject_renewal rpc_execute_task rpc_reschedule_task rpc_update_task_interval rpc_verify_manual_payment get_admin_dashboard_summary admin_upsert_provider admin_upsert_provider_prefix admin_upsert_package admin_upsert_payment_method admin_upsert_task_settings admin_upsert_task_classification admin_set_system_setting admin_set_user_role admin_set_user_status 
 
 بحسب قاعدة البيانات النهائية.
 

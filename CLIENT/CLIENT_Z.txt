@@ -1436,7 +1436,7 @@ Snapshots
 
 طلب حماية جديد
 
-لا يسمح بإنشاء طلبات Pending متعارضة لنفس علاقة العميل بالرقم وفق قاعدة النظام المعتمدة.
+يمكن وجود أكثر من طلب حماية Pending لنفس الرقم وفق قواعد النظام، ولا يمنع تطبيق العميل إنشاء الطلب لمجرد وجود طلب Pending آخر لنفس الرقم. وحسم التعارض يكون عند القبول الذري في الخادم: أول قبول صحيح يفوز (First valid atomic acceptance wins) والطلبات المتعارضة الأخرى ترفض/تغلق وفق قاعدة التعارض المعتمدة (Conflict).
 
 طلب تجديد
 
@@ -2354,7 +2354,7 @@ UI ↓ ViewModel ↓ CreateProtectionRequest Use Case ↓ Repository ↓ rpc_cre
 
 • لا يوجد تعارض حماية.
 
-• لا يوجد طلب مكرر غير مسموح.
+• يمكن إنشاء الطلب بحالة Pending حتى لو وُجد طلب معلق آخر للرقم، وحسم التعارض يتم عند القبول الذري.
 
 • حالة الرقم تسمح بالطلب.
 
@@ -3570,7 +3570,7 @@ rpc_add_customer_number rpc_create_protection_request rpc_create_renewal_request
 
 ومنها:
 
-users customer_numbers protection_requests protections protection_renewals notifications company_packages payment_methods payment_tasks 
+users customer_numbers protection_requests protections protection_history client_notifications packages payment_methods payment_tasks 
 
 بحسب المخطط النهائي المعتمد.
 
