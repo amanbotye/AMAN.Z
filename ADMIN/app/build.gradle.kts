@@ -6,11 +6,11 @@ plugins {
 }
 
 android {
-    namespace = "ye.aman.client"
+    namespace = "ye.aman.admin"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "ye.aman.client"
+        applicationId = "ye.aman.admin"
         minSdk = 26
         targetSdk = 35
         versionCode = 1

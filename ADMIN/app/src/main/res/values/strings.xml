@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">أمان — الإدارة</string>
+    <string name="app_tagline">لوحة التحكم والتشغيل المركزي لمنظومة أمان</string>
+    <string name="welcome_admin">مرحباً بك في إدارة أمان</string>
+</resources>
